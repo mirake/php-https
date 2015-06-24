@@ -3,7 +3,9 @@ FROM ubuntu:trusty
 RUN apt-get update && \
     apt-get install -y nginx spawn-fcgi php5-cli php5-cgi 
 
-EXPOSE 80
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+EXPOSE 443
 
 WORKDIR /usr/share/nginx/html
 
@@ -12,5 +14,9 @@ RUN  chmod +x /run.sh
 
 CMD ["/run.sh"]
 
+COPY server* /etc/nginx/
+
 COPY nginx-site /etc/nginx/sites-available/default
+
 COPY phpinfo.php /usr/share/nginx/html/
+
